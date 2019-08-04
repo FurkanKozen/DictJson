@@ -1,9 +1,9 @@
 # DictJson
- Dictionary-like solution for JSON files in C#  
+ Dictionary-like solution for JSON files in C#.  
 
-This is a very light-weight solution to deal with JSON files that will not be used whose schema again and again. If you need to generate a string from C# object (e.g. domain objects) to use it as JSON file in the front-end of your web application, writing a cast function for each JSON schema may not be very useful unless you will use this cast function again. Using dictionary is a simpler way to generate JSON string from C# object. Because [Newtonsoft.Json](https://www.newtonsoft.com/json) can serialize `Dictionary<T, U>` type to JSON, there is no need to do extra things.  
+This is a very light-weight solution to deal with JSON files that will not be used whose schema again and again. If you need to generate a string from C# object (e.g. domain objects) to use it as JSON file in the front-end of your web application, writing a cast function for each JSON schema may not be very useful unless you will use this cast function anywhere else. Using dictionary is a simpler way to generate JSON string from C# object. Because [Newtonsoft.Json](https://www.newtonsoft.com/json) can serialize `Dictionary<T, U>` type to JSON, there is no need to do extra things.  
 
-Only thing in this approach is using `Add()` method of `Dictionary<T, U>` class to create `JsonObject` returning `_("name", value)` method. Thus you can chain your adding methods (`_("name", value)`) to create a JSON file. Additionally, a JSON document is always a collection of string-object pair (collection of `KeyValuePair<string, object>` in C#), so with this method, you don't have to specify types of key and value every time.  
+Only thing in this approach is using `Add()` method of `Dictionary<T, U>` class in order to create `_("name", value)` method, returning`JsonObject`. Thus you can chain your adding methods (`_("name", value)`) to create a JSON file. Additionally, a JSON document is always a collection of string-object pair (like a collection of `KeyValuePair<string, object>` in C#), so with this method, you don't have to specify types of key and value every time.  
 
 You can create a JSON file like this:  
 ```
@@ -43,7 +43,7 @@ You can create a JSON file like this:
     ]
 }
 ```
-by using this method as below:
+by using this method with Newtonsoft.Json framework as below:
 ```
 var dictJson = new JsonObject()
     ._("type", "Person")
@@ -65,11 +65,11 @@ var dictJson = new JsonObject()
         ._("job", p.Job)));
         
 var dictJsonStr = JsonConvert.SerializeObject(dictJson);
-Console.WriteLine(newDictJson);
+Console.WriteLine(dictJsonStr);
 ```
 Note that `JsonConvert.SerializeObject(dictJson)` method is under `Newtonsoft.Json` namespace, coming with Newtonsoft.Json framework and the `person` is an instance of a custom class having `FirstName`, `BirthDate` and `Job` properties.  
 
-By using `new JsonObject()`, you can add/create a JSON object, and by using `_("name", value)` method at instance of `JsonObject`, you can add JSON member to `JsonObject` (see [RFC 4627](https://www.ietf.org/rfc/rfc4627.txt) for JSON definitions). You can, of course, create your own `JsonMember` and `JsonObject` classes etc. instead of deriving from `Dictionary<string, object>` but this way is so simple to implement and with it, you can enjoy the benefits of using `Dictionary` type.
+By using `new JsonObject()`, you can add/create a JSON object, and by using `_("name", value)` method at instance of `JsonObject`, you can add JSON member to `JsonObject` (see [RFC 4627](https://www.ietf.org/rfc/rfc4627.txt) for JSON definitions). You can, of course, create your own `JsonMember` and `JsonObject` classes etc. instead of deriving from `Dictionary<string, object>` but this way is so simple to implement, and with it, you can enjoy the benefits of using `Dictionary` type.
 
 ## Dictionary Initializer
-Dictionary initializer coming with C# 6.0 is useful for this purpose. But still, you have to specify types of key and value of dictionary every time. Nice thing about using dictionary initializer is that you can format your code automatically with _Ctrl+E, D_ in Visual Studio, instead of indenting manually.
+Dictionary initializer coming with C# 6.0 is useful for this purpose. But still, you have to specify types of key and value of dictionary every time. Also, dictionary initializer doesn't exist below C# 6.0 and Visual Studio 2015, you have to install Roslyn compiler manually to Visual Studio 2013 to able to use dictionary initializer. However, nice thing about using dictionary initializer is that you can format your code automatically with _Ctrl+E, D_ in Visual Studio, instead of indenting manually.
