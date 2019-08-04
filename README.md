@@ -3,7 +3,7 @@
 
 This is a very light-weight solution to deal with JSON files that will not be used whose schema again and again. If you need to generate a string from C# object (e.g. domain objects) to use it as JSON file in the front-end of your web application, writing a cast function for each JSON schema may not be very useful unless you will use this cast function anywhere else. Using dictionary is a simpler way to generate JSON string from C# object. Because [Newtonsoft.Json](https://www.newtonsoft.com/json) can serialize `Dictionary<T, U>` type to JSON, there is no need to do extra things.  
 
-Only thing in this approach is using `Add()` method of `Dictionary<T, U>` class in order to create `_("name", value)` method, returning`JsonObject`. Thus you can chain your adding methods (`_("name", value)`) to create a JSON file. Additionally, a JSON document is always a collection of string-object pair (like a collection of `KeyValuePair<string, object>` in C#), so with this method, you don't have to specify types of key and value every time.  
+Only thing in this approach is using `Add()` method of `Dictionary<T, U>` class in order to create `_("name", value)` method, returning `JsonObject`. Thus you can chain your adding methods (`_("name", value)`) to create a JSON file. Additionally, a JSON document is always a collection of string-object pair (like a collection of `KeyValuePair<string, object>` in C#), so with this method, you don't have to specify types of key and value every time.  
 
 You can create a JSON file like this:  
 ```
